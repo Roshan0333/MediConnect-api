@@ -5,7 +5,7 @@ const requiredLogin = require("../../middleware/requiredLogin");
 const route = express.Router();
 
 route.post("/AppointmentBooking", requiredLogin, AppointmentBooking);
-route.post("/AppointmentHistory", requiredLogin, UserAppointmentHistory);
+route.get("/AppointmentHistory", requiredLogin, UserAppointmentHistory);
 route.post("/CurrentAppointment", requiredLogin, CurrentAppointment)
 route.put("/CancelAppointment", requiredLogin, CancelAppointment);
 

@@ -1,18 +1,7 @@
-const express = require("express")
-let SignUp_Model = require("../../models/End_User.Model/User.model");
+let SignUp_Model = require("../../models/End_User_Model/User.model");
 const { passwordEncrypt, passwordDecrypt } = require("../../utilites/password_Encrypt_Decrypt/index")
 const jwtToken_Create = require("../../utilites/jwt/index");
-
-
-let Cookies = (res,tokenType,token, expiresIn) => {
-    res.cookie(tokenType, token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "Lax",
-        maxAge: expiresIn
-    })
-}
-
+const Cookies = require("../../utilites/cookie/Cookie")
 
 //! Signup Api
 let Signup_Controller = async (req, res) => {
@@ -30,9 +19,9 @@ let Signup_Controller = async (req, res) => {
         await User.save();
 
         let { accessToken, refreshToken } = jwtToken_Create(User);
-        Cookies(res,"RefreshToken",refreshToken,30 * 24 * 60 * 60 * 1000);
-        Cookies(res,"AccessToken", accessToken, 15 * 60 * 1000);
 
+        Cookies(res,"AccessToken", accessToken, 15*60*1000);
+        Cookies(res,"RefreshToken",refreshToken,30*24*60*60*1000);
 
 
         return res.status(200).json({ status: 200, msg: "User Add Successfully"})
@@ -63,8 +52,12 @@ let Login_Controller = async (req, res) => {
         }
         else {
             User.password = undefined;
-            let token = jwtToken_Create(User)
-            return res.status(200).json({ status: 200, msg: "Login SuccessFul", AccessToken: token.accessToken, RefreshToken: token.refreshToken })
+            let {accessToken, refreshToken} = jwtToken_Create(User)
+
+            Cookies(res,"AccessToken", accessToken, 15*60*1000);
+            Cookies(res,"RefreshToken", refreshToken, 30*24*60*60*1000)
+
+            return res.status(200).json({ status: 200, msg: "Login SuccessFul"})
         }
     }
     catch (err) {
@@ -101,9 +94,12 @@ let ForgetPassword_Controller = async (req, res) => {
         }
 
         UserDetail.password = undefined
-        let token = jwtToken_Create(UserDetail)
+        let {accessToken, refreshToken} = jwtToken_Create(UserDetail);
 
-        return res.status(200).json({ status: 200, msg: "Password Updates Successfully", AccessToken: token.accessToken, RefreshToken: token.refreshToken })
+        Cookies(res, "AccessToken", accessToken, 15*60*1000);
+        Cookies(res,"RefreshToken", refreshToken, 30*24*60*60*1000)
+
+        return res.status(200).json({ status: 200, msg: "Password Updates Successfully"})
     }
     catch (err) {
         return res.status(500).json({ status: 500, msg: err.message });

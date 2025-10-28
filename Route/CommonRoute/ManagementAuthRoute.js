@@ -1,8 +1,8 @@
 const express = require("express");
-const {Management_Signup, Management_Login, Management_ForgetPassword} = require("../controller/ManagementController");
-const Otp_Create = require("../controller/OptController")
+const {Management_Signup, Management_Login, Management_ForgetPassword} = require("../../controller/CommonController/ManagementController");
+const Otp_Create = require("../../controller/CommonController/OptController")
 
-let ManagementModel = require('../models/Management.Model');
+let ManagementModel = require('../../models/Common_Model/Management.Model');
 
 let route = express.Router();
 

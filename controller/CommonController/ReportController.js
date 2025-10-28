@@ -1,8 +1,8 @@
 const express = require("express");
-let ReportModel = require("../models/Report.Model");
-let AppointmentModel = require("../models/Appointment.model");
-let UserModel = require("../models/End_User.Model/User.model");
-let DoctorModel = require("../models/Doctor_Model/Doctor.model")
+let ReportModel = require("../../models/Common_Model/Report.Model");
+let AppointmentModel = require("../../models/Common_Model/Appointment.model");
+let UserModel = require("../../models/End_User_Model//User.model");
+let DoctorModel = require("../../models/Doctor_Model/Doctor.model")
 
 let app = express();
 

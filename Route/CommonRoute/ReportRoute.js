@@ -1,9 +1,9 @@
 const express = require("express");
-const ReportUpload = require("../controller/ReportController");
+const ReportUpload = require("../../controller/CommonController/ReportController");
 const multer = require("multer");
-const SignUp_Model = require("../models/End_User.Model/User.model");
-const DoctorModel = require('../models/Doctor_Model/Doctor.model');
-const requiredLogin = require("../middleware/requiredLogin");
+const SignUp_Model = require("../../models/End_User_Model/User.model");
+const DoctorModel = require('../../models/Doctor_Model/Doctor.model');
+const requiredLogin = require("../../middleware/requiredLogin");
 
 let route = express.Router();
 

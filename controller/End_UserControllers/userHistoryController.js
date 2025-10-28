@@ -1,5 +1,5 @@
 const express = require("express");
-const AppointmentModel = require("../../models/Appointment.model")
+const AppointmentModel = require("../../models/Common_Model/Appointment.model")
 const DoctorAvailable = require("../../models/Doctor_Model/DoctorAvailable.model")
 let app = express();
 
@@ -90,10 +90,10 @@ const UserAppointmentHistory = async (req, res) => {
         let AppointmentHistory = await AppointmentModel.find({ UserID: req.user._id });
 
         if (AppointmentHistory.length === 0) {
-            return res.status(200).json({length:false, msg: "No Appointment History" })
+            return res.status(200).json({status:200,length:false, msg: "No Appointment History" })
         }
         else {
-            return res.status(200).json({length:true, Data: AppointmentHistory })
+            return res.status(200).json({status:200,length:true, Data: AppointmentHistory })
         }
     }
     catch (err) {

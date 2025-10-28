@@ -2,10 +2,12 @@ const express = require("express");
 const DoctorModel = require("../../models/Doctor_Model/Doctor.model");
 const { passwordEncrypt, passwordDecrypt } = require("../../utilites/password_Encrypt_Decrypt/index");
 const jwtToken_Create = require("../../utilites/jwt/index");
+const Cookies = require("../../utilites/cookie/Cookie")
 
 
 const app = express();
 app.use(express.json());
+
 
 let Doctor_Signup = async (req, res) => {
     try {
@@ -23,9 +25,12 @@ let Doctor_Signup = async (req, res) => {
 
         DoctorDetail.password = undefined;
 
-        let token = await jwtToken_Create(DoctorDetail)
+        let {accessToken, refreshToken} = jwtToken_Create(DoctorDetail);
 
-        return res.status(200).json({ status:200,message: "Doctor Add Successfully", token: token });
+        Cookies(res,"AccessToken", accessToken, 15*60*1000);
+        Cookies(res, "RefreshToken", refreshToken, 30*24*60*60*1000);
+
+        return res.status(200).json({ status:200,message: "Doctor Add Successfully"});
     }
     catch (err) {
         return res.status(500).json({ status:500, error: err.message });
@@ -51,8 +56,13 @@ let Doctor_Login = async (req, res) => {
         }
         else {
             DoctorDetail.password = undefined;
-            let token = jwtToken_Create(DoctorDetail);
-            return res.status(200).json({ status:200, message: "Access Granted", AccessToken: token.accessToken, RefreshToken: token.refreshToken})
+
+            let {accessToken, refreshToken} = jwtToken_Create(DoctorDetail);
+            
+            Cookies(res,"AccessToken", accessToken, 15*60*1000);
+            Cookies(res, "RefreshToken", refreshToken, 30*24*60*60*1000);
+
+            return res.status(200).json({ status:200, message: "Access Granted"})
         }
     }
     catch (err) {
@@ -88,9 +98,12 @@ let Doctor_ForgetPassword = async (req,res) => {
 
         UpdateDetail.password = undefined;
 
-        let token = jwtToken_Create(UpdateDetail);
+        let {accessToken, refreshToken} = jwtToken_Create(UpdateDetail);
 
-        return res.status(200).json({status:200, message:"Password Updated Successfully", AccessToken: token.accessToken, RefreshToken: token.refreshToken});
+        Cookies(res,"AccessToken", accessToken, 15*60*1000);
+        Cookies(res,"RefreshToken", refreshToken, 30*24*60*60*1000);
+
+        return res.status(200).json({status:200, message:"Password Updated Successfully",});
     }
     catch(err){
         return res.status(500).json({status:500, error: err.message})

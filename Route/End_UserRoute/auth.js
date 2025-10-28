@@ -1,9 +1,9 @@
 const express = require("express");
 const { Signup_Controller, Login_Controller, LoginByToken, ForgetPassword_Controller } = require("../../controller/End_UserControllers/authController");
-const Otp_Create= require("../../controller/OptController")
+const Otp_Create= require("../../controller/CommonController/OptController")
 
 const requiredLogin = require("../../middleware/requiredLogin");
-const SignUp_Model = require("../../models/End_User.Model/User.model");
+const SignUp_Model = require("../../models/End_User_Model/User.model");
 
 const route = express.Router();
 

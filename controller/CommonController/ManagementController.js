@@ -1,7 +1,7 @@
 const express = require("express");
-let ManagementModel = require("../models/Management.Model");
-let jwtToken_Create = require("../utilites/jwt/index")
-let { passwordEncrypt, passwordDecrypt } = require("../utilites/password_Encrypt_Decrypt");
+let ManagementModel = require("../../models/Common_Model/Management.Model");
+let jwtToken_Create = require("../../utilites/jwt/index")
+let { passwordEncrypt, passwordDecrypt } = require("../../utilites/password_Encrypt_Decrypt");
 
 let app = express();
 

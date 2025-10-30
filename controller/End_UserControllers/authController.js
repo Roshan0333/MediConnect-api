@@ -61,7 +61,7 @@ let Login_Controller = async (req, res) => {
         }
     }
     catch (err) {
-        return res.status(500).json({ status: 500, msg: err.message });
+        return res.status(500).json({ status: 500, error: err.message });
     }
 };
 

@@ -6,7 +6,7 @@ const route = express.Router();
 
 route.post("/AppointmentBooking", requiredLogin, AppointmentBooking);
 route.get("/AppointmentHistory", requiredLogin, UserAppointmentHistory);
-route.post("/CurrentAppointment", requiredLogin, CurrentAppointment)
+route.get("/CurrentAppointment", requiredLogin, CurrentAppointment)
 route.put("/CancelAppointment", requiredLogin, CancelAppointment);
 
 

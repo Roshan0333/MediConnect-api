@@ -9,12 +9,13 @@ app.use(express.json());
 const AppointmentBooking = async (req, res) => {
     try {
 
-        const { DoctorName, DoctorId, AppointmentDate, AppointmentTime } = req.body;
+        const { DoctorName, DoctorId,DoctorSpecialization, AppointmentDate, AppointmentTime } = req.body;
 
         let AppointmentDetail = await AppointmentModel({
             UserID: req.user._id,
             DoctorName,
             DoctorId,
+            DoctorSpecialization,
             AppointmentDate,
             AppointmentTime,
             AppointmentStatus: "Conform"

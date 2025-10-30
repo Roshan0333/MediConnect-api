@@ -14,6 +14,10 @@ let AppointmentScheme = mongoose.Schema({
         type:String,
         required:true
     },
+    DoctorSpecialization:{
+        type:String,
+        required:true
+    },
     AppointmentDate:{
         type:String,
         required:true

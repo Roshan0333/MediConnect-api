@@ -2,7 +2,7 @@ let DoctorModel = require("../../models/Doctor_Model/Doctor.model");
 let DoctorAvailable = require("../../models/Doctor_Model/DoctorAvailable.model");
 
 
-let SearchBy_DoctorId = async (req, res) => {
+let SearchBy_DoctorIdForAppointment = async (req, res) => {
     try {
         let { id, AppointmentDate } = req.query;
 
@@ -420,4 +420,4 @@ let SearchBy_DoctorNameAndSpecializationAndDateAndTime = async (req, res) => {
     }
 }
 
-module.exports = { SearchBy_DoctorId, SearchBy_Date, SearchBy_DateAndTime, SearchBy_DoctorNameAndDate, SearchBy_SpecializationAndDate, SearchBy_DoctorNameAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDate, SearchBy_SpecializationAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDateAndTime }
+module.exports = { SearchBy_DoctorIdForAppointment, SearchBy_Date, SearchBy_DateAndTime, SearchBy_DoctorNameAndDate, SearchBy_SpecializationAndDate, SearchBy_DoctorNameAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDate, SearchBy_SpecializationAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDateAndTime }

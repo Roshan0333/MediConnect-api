@@ -1,10 +1,10 @@
 const express = require("express");
-let  { SearchBy_DoctorId, SearchBy_Date, SearchBy_DateAndTime, SearchBy_DoctorNameAndDate, SearchBy_SpecializationAndDate, SearchBy_DoctorNameAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDate, SearchBy_SpecializationAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDateAndTime } = require("../../controller/CommonController/SearchController");
+let  { SearchBy_DoctorIdForAppointment, SearchBy_Date, SearchBy_DateAndTime, SearchBy_DoctorNameAndDate, SearchBy_SpecializationAndDate, SearchBy_DoctorNameAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDate, SearchBy_SpecializationAndDateAndTime, SearchBy_DoctorNameAndSpecializationAndDateAndTime } = require("../../controller/CommonController/SearchController");
 
 let route = express.Router();
 
 
-route.get("/DoctorId", SearchBy_DoctorId);
+route.get("/DoctorId", SearchBy_DoctorIdForAppointment);
 route.get('/Date', SearchBy_Date);
 route.get("/DateAndTime", SearchBy_DateAndTime);
 route.get("/DoctorNameAndDate", SearchBy_DoctorNameAndDate);

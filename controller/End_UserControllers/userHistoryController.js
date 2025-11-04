@@ -1,6 +1,7 @@
 const express = require("express");
 const AppointmentModel = require("../../models/Common_Model/Appointment.model")
 const DoctorAvailable = require("../../models/Doctor_Model/DoctorAvailable.model")
+const DoctorModel = require("../../models/Doctor_Model/Doctor.model");
 let app = express();
 
 app.use(express.json());
@@ -9,7 +10,7 @@ app.use(express.json());
 const AppointmentBooking = async (req, res) => {
     try {
 
-        const { DoctorName, DoctorId,DoctorSpecialization, AppointmentDate, AppointmentTime } = req.body;
+        const { DoctorName, DoctorId, DoctorSpecialization, AppointmentDate, AppointmentTime, Fee } = req.body;
 
         let AppointmentDetail = await AppointmentModel({
             UserID: req.user._id,
@@ -18,7 +19,8 @@ const AppointmentBooking = async (req, res) => {
             DoctorSpecialization,
             AppointmentDate,
             AppointmentTime,
-            AppointmentStatus: "Conform"
+            AppointmentStatus: "Conform",
+            Fee
         })
 
         await DoctorAvailable.findOneAndUpdate(
@@ -136,4 +138,20 @@ const CurrentAppointment = async (req, res) => {
     }
 }
 
-module.exports = { AppointmentBooking, CancelAppointment, UserAppointmentHistory, CurrentAppointment };
+
+const PreviousDoctor = async (req,res) => {
+    try{
+        const {DoctorId} = req.query;
+
+        let DoctorDetail = await DoctorModel.findById(DoctorId);
+
+        DoctorDetail.password = undefined;
+
+        return res.status(200).json({status:200, DoctorDetail : DoctorDetail});
+    }
+    catch(err){
+        return res.status(500).json({status:500, error: err.message})
+    }
+}
+
+module.exports = { AppointmentBooking, CancelAppointment, UserAppointmentHistory, CurrentAppointment, PreviousDoctor};

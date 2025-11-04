@@ -33,6 +33,9 @@ let AppointmentScheme = mongoose.Schema({
     PaymentStatus:{
         type: String,
         default : false
+    },
+    Fee:{
+        type:Number
     }
 })
 

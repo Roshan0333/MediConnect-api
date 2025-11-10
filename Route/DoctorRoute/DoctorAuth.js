@@ -1,6 +1,5 @@
 const express = require("express");
-const { Doctor_Signup, Doctor_Login, Doctor_LoginByToken, DoctorList, Doctor_ForgetPassword, UpdateDoctorFee } = require("../../controller/Doctor_Controller/authController");
-const requiredLogin = require("../../middleware/requiredLogin");
+const { Doctor_Signup, Doctor_Login, DoctorList, Doctor_ForgetPassword, UpdateDoctorFee } = require("../../controller/Doctor_Controller/authController");
 const DoctorModel = require("../../models/Doctor_Model/Doctor.model");
 
 let route = express.Router();
@@ -47,7 +46,6 @@ const Email_Duplicate = async (req, res, next) => {
 
 route.post("/Signup", Email_Duplicate, Doctor_Signup);
 route.post("/Login", isEmail_Present_Not, Doctor_Login);
-route.post("/LoginByToken", requiredLogin, Doctor_LoginByToken);
 route.post("/forgetPassword", Doctor_ForgetPassword);
 route.get("/List", DoctorList);
 route.put("/DoctorFee", UpdateDoctorFee)

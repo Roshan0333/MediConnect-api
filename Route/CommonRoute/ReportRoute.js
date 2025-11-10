@@ -1,5 +1,5 @@
 const express = require("express");
-const ReportUpload = require("../../controller/CommonController/ReportController");
+const {ReportUpload, ReportGet} = require("../../controller/CommonController/ReportController");
 const multer = require("multer");
 const SignUp_Model = require("../../models/End_User_Model/User.model");
 const DoctorModel = require('../../models/Doctor_Model/Doctor.model');
@@ -44,6 +44,7 @@ let storage = multer.memoryStorage();
 let upload = multer({ storage });
 
 
-route.post("/ReportUpload",requiredLogin, upload.single("Report"), isEmail_Present_Not, ReportUpload)
+route.post("/ReportUpload",requiredLogin, upload.single("Report"), isEmail_Present_Not, ReportUpload);
+route.get("/ReportGet", requiredLogin, ReportGet)
 
 module.exports = route

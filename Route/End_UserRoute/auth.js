@@ -1,8 +1,6 @@
 const express = require("express");
-const { Signup_Controller, Login_Controller, LoginByToken, ForgetPassword_Controller } = require("../../controller/End_UserControllers/authController");
+const { Signup_Controller, Login_Controller, ForgetPassword_Controller } = require("../../controller/End_UserControllers/authController");
 const Otp_Create= require("../../controller/CommonController/OptController")
-
-const requiredLogin = require("../../middleware/requiredLogin");
 const SignUp_Model = require("../../models/End_User_Model/User.model");
 
 const route = express.Router();
@@ -53,8 +51,6 @@ const DuplicateEmail = async (req, res, next) => {
 route.post("/Signup", Signup_Controller);
 
 route.post("/Login", isEmail_Present_Not, Login_Controller);
-
-route.post("/LoginByToken", requiredLogin, LoginByToken)
 
 route.put("/forgetPassword", ForgetPassword_Controller);
 

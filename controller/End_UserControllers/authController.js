@@ -1,7 +1,7 @@
 let SignUp_Model = require("../../models/End_User_Model/User.model");
 const { passwordEncrypt, passwordDecrypt } = require("../../utilites/password_Encrypt_Decrypt/index")
 const jwtToken_Create = require("../../utilites/jwt/index");
-const Cookies = require("../../utilites/cookie/Cookie")
+const {Cookies} = require("../../utilites/cookie/Cookie")
 
 //! Signup Api
 let Signup_Controller = async (req, res) => {
@@ -17,6 +17,9 @@ let Signup_Controller = async (req, res) => {
         })
 
         await User.save();
+
+
+        User.password = undefined
 
         let { accessToken, refreshToken } = jwtToken_Create(User);
 
@@ -66,17 +69,6 @@ let Login_Controller = async (req, res) => {
 };
 
 
-//! Login Api by token
-let LoginByToken = (req, res) => {
-    try {
-        return res.status(200).json({ status: 200, msg: "Access Granted" })
-    }
-    catch (err) {
-        return res.status(500).json({ status: 500, error: err.message })
-    }
-}
-
-
 //! Forget Password Api
 let ForgetPassword_Controller = async (req, res) => {
     try {
@@ -107,4 +99,4 @@ let ForgetPassword_Controller = async (req, res) => {
 };
 
 
-module.exports = { Signup_Controller, Login_Controller, LoginByToken, ForgetPassword_Controller };
+module.exports = { Signup_Controller, Login_Controller, ForgetPassword_Controller };

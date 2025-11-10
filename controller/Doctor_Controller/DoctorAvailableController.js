@@ -27,13 +27,13 @@ let DoctorAvailable_AddDate = async (req, res) => {
 
         const { Date, AvailableArray } = req.body;
 
-        await DoctorAvailable_Model.findByIdAndUpdate(
-            {_id: req.user._id},
+        await DoctorAvailable_Model.findOneAndUpdate(
+            {DoctorId: req.user._id},
             {$push:{DoctorAvailable_Array: { Date: Date, Available: AvailableArray }}}
 
         )
 
-        res.status(200).json({ msg:'Doctor Available Data Update Successfully'})
+        res.status(200).json({ msg:'Doctor Available Data Update Successfully', id: req.user._id})
     }
     catch (err) {
         res.status(500).json({ error: err.message });
@@ -45,8 +45,8 @@ let DoctorAvailable_DeleteDate = async (req, res) => {
     try {
         const { Date } = req.body;
 
-        await DoctorAvailable_Model.findByIdAndUpdate(
-            {_id:req.user._id},
+        await DoctorAvailable_Model.findOneAndUpdate(
+            {DoctorId:req.user._id},
             {$pull:{DoctorAvailable_Array:{Date:Date}}}
         )
 
@@ -62,8 +62,8 @@ let DoctorAvailable_AddTime = async (req,res) => {
     try{
         const {Date,Time} = req.body;
 
-    await DoctorAvailable_Model.findByIdAndUpdate(
-        {_id:req.user._id, "DoctorAvailable_Array.Date":Date},
+    await DoctorAvailable_Model.findOneAndUpdate(
+        {DoctorId:req.user._id, "DoctorAvailable_Array.Date":Date},
         { $push: { "DoctorAvailable_Array.$.Available": { time: Time, Status: false } } }
     )
 
@@ -79,8 +79,8 @@ let DoctorAvailable_DeleteTime = async (req,res) => {
     try{
         const {Date, Time} = req.body;
 
-        await DoctorAvailable_Model.findByIdAndUpdate(
-            {_id:req.user._id, "DoctorAvailable_Array.Date":Date},
+        await DoctorAvailable_Model.findOneAndUpdate(
+            {DoctorId:req.user._id, "DoctorAvailable_Array.Date":Date},
             {$pull:{"DoctorAvailable_Array.$.Available":{time:Time}}}
             
         );

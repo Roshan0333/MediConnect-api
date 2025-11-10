@@ -5,6 +5,10 @@ let Report_Schema = new mongoose.Schema({
     AppointmentId:{
         type:String,
     }, 
+    FileName:{
+        type:String,
+        required:true
+    },
     AppointmentDate:{
         type:String,
         required:true
@@ -13,13 +17,20 @@ let Report_Schema = new mongoose.Schema({
         type:String,
         required:true
     },
-    PatientEmail:{
+    PatientId:{
         type:String,
-        required:true
     },
-    DoctorEmail:{
+    PatientName:{
+        type: String,
+    },
+    DoctorId:{
         type:String,
-        required:true
+    },
+    DoctorName:{
+        type:String,
+    },
+    DoctorSpecialization:{
+        type:String,
     },
     UploadedBy:{
         type:ObjectId,

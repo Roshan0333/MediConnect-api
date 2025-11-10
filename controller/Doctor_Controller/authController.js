@@ -2,7 +2,7 @@ const express = require("express");
 const DoctorModel = require("../../models/Doctor_Model/Doctor.model");
 const { passwordEncrypt, passwordDecrypt } = require("../../utilites/password_Encrypt_Decrypt/index");
 const jwtToken_Create = require("../../utilites/jwt/index");
-const Cookies = require("../../utilites/cookie/Cookie")
+const {Cookies} = require("../../utilites/cookie/Cookie")
 
 
 const app = express();
@@ -11,14 +11,15 @@ app.use(express.json());
 
 let Doctor_Signup = async (req, res) => {
     try {
-        const { doctorName, email, password, specialization, experience } = req.body;
+        const { doctorName, email, password, specialization, experience, fee } = req.body;
 
         let DoctorDetail = await DoctorModel({
             doctorName,
             email,
             password: await passwordEncrypt(password),
             specialization,
-            experience
+            experience, 
+            fee
         })
 
         await DoctorDetail.save();
@@ -67,15 +68,6 @@ let Doctor_Login = async (req, res) => {
     }
     catch (err) {
         return res.status(500).json({ status:500, error: err.message });
-    }
-}
-
-let Doctor_LoginByToken = async (req, res) => {
-    try {
-        return res.status(200).json({ status:200, message: "Access Granted", AccessToken: token.accessToken, RefreshToken: token.refreshToken })
-    }
-    catch (err) {
-        return res.status(500).json({status:500, error: err.message });
     }
 }
 
@@ -144,4 +136,4 @@ let UpdateDoctorFee = async (req,res) => {
 }
 
 
-module.exports = { Doctor_Signup, Doctor_Login, Doctor_LoginByToken, DoctorList, Doctor_ForgetPassword, UpdateDoctorFee };
+module.exports = { Doctor_Signup, Doctor_Login, DoctorList, Doctor_ForgetPassword, UpdateDoctorFee };

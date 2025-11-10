@@ -11,18 +11,16 @@ let SearchBy_DoctorIdForAppointment = async (req, res) => {
             "DoctorAvailable_Array.Date": AppointmentDate
         })
 
+        if (!AppointmentList) {
+            return res.status(404).json({ status: 404, msg: "No appointments found for the given date." });
+        }
 
 
         let matchdDateAppointment = await AppointmentList.DoctorAvailable_Array.find(
             (item) => item.Date === AppointmentDate
         )
 
-        if (!AppointmentList) {
-            return res.status(404).json({ status: 404, msg: "No appointments found for the given date." });
-        }
-        else {
-            return res.status(200).json({ status: 200, DoctorAvailable: matchdDateAppointment });
-        }
+        return res.status(200).json({ status: 200, DoctorAvailable: matchdDateAppointment });
 
     }
     catch (err) {
@@ -286,6 +284,10 @@ let SearchBy_DoctorNameAndDateAndTime = async (req, res) => {
             }))
 
 
+        if (AppointmentList.length === 0) {
+            return res.status(404).json({ status: 404, msg: "No doctor found" })
+        }
+
         let ValidAppointments = AppointmentList.filter((doc) => doc !== null && doc.DoctorId);
 
         if (ValidAppointments.length === 0) {
@@ -337,6 +339,10 @@ let SearchBy_SpecializationAndDateAndTime = async (req, res) => {
                 })
             })
         )
+
+        if (AppointmentList.length === 0) {
+            return res.status(404).json({ status: 404, msg: "No doctor found" })
+        }
 
         let ValidAppointments = AppointmentList.filter((doc) => doc !== null && doc.DoctorId)
 
@@ -391,6 +397,11 @@ let SearchBy_DoctorNameAndSpecializationAndDateAndTime = async (req, res) => {
                 })
             })
         )
+
+
+        if (AppointmentList.length === 0) {
+            return res.status(404).json({ status: 404, msg: "No doctor found" })
+        }
 
         let ValidAppointments = AppointmentList.filter((doc) => doc !== null && doc.DoctorId);
 

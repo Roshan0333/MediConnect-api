@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require('cors');
 const dbConnection = require("./db/dbConnection");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
+const {RemoveCookies} = require("./utilites/cookie/Cookie")
 require('dotenv').config();
 
 const PORT = 3000;
@@ -29,6 +30,10 @@ app.use("/appointment/doctor/available", require("./Route/DoctorRoute/AvailableR
 app.use("/appointment/management/auth", require("./Route/CommonRoute/ManagementAuthRoute"));
 app.use("/appointment/management/Report", require("./Route/CommonRoute/ReportRoute"));
 app.use("/appointment/SearchBy", require("./Route/CommonRoute/Search"));
+
+app.post("/appointment/signout", async (req,res) => {
+    RemoveCookies(res);
+})
 
 app.listen(PORT, () => { console.log(`Server Is Running on ${PORT}`) })
 

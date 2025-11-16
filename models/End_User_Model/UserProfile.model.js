@@ -6,6 +6,9 @@ const UserProfile_Schema = mongoose.Schema({
         type: ObjectId,
         ref: "SignUp"
     },
+    ProfilePhoto:{
+        type: String
+    },
     UserName: {
      type: String,
     },
@@ -24,6 +27,10 @@ const UserProfile_Schema = mongoose.Schema({
         NearaBy: {
             type: String,
             required: true
+        },
+        PinCode:{
+            type: Number,
+            require: true
         },
         City: {
             type: String,

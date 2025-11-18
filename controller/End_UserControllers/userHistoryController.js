@@ -13,7 +13,8 @@ const AppointmentBooking = async (req, res) => {
         const { DoctorName, DoctorId, DoctorSpecialization, AppointmentDate, AppointmentTime, Fee } = req.body;
 
         let AppointmentDetail = await AppointmentModel({
-            UserID: req.user._id,
+            PatientID: req.user._id,
+            PatientName: req.user.name,
             DoctorName,
             DoctorId,
             DoctorSpecialization,
@@ -90,7 +91,7 @@ const CancelAppointment = async (req, res) => {
 const UserAppointmentHistory = async (req, res) => {
     try {
 
-        let AppointmentHistory = await AppointmentModel.find({ UserID: req.user._id });
+        let AppointmentHistory = await AppointmentModel.find({ PatientID: req.user._id });
 
         if (AppointmentHistory.length === 0) {
             return res.status(200).json({status:200,length:false, msg: "No Appointment History" })
@@ -107,7 +108,7 @@ const UserAppointmentHistory = async (req, res) => {
 const CurrentAppointment = async (req, res) => {
     try {
 
-        let allAppointment = await AppointmentModel.find({ UserID: req.user._id });
+        let allAppointment = await AppointmentModel.find({ PatientID: req.user._id });
 
         let now = new Date();
         let currentAppointment = allAppointment.filter((appointment) => {

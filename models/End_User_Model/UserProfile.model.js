@@ -7,40 +7,40 @@ const UserProfile_Schema = mongoose.Schema({
         ref: "SignUp"
     },
     ProfilePhoto:{
-        type: String
+        type: String,
+        unique: true
     },
     UserName: {
      type: String,
     },
     UserEmail: {
-        type: String,
+        type:String,
+        unique: true
     },
     Phone: {
         type: Number,
-        required: true
+        unique: true
     },
-    Address: [{
+    UserAge:{
+        type:Number
+    },
+    Address: {
         StreetName: {
             type: String,
-            required: true
         },
-        NearaBy: {
+        NearBy: {
             type: String,
-            required: true
         },
         PinCode:{
             type: Number,
-            require: true
         },
         City: {
             type: String,
-            required: true
         },
         State: {
             type: String,
-            required: true
         }
-    }]
+    }
 });
 
 const UserProfile_Model = mongoose.model("User Profile", UserProfile_Schema);

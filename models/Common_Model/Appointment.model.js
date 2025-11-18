@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 const {ObjectId} = mongoose.Schema.Types
 
 let AppointmentScheme = mongoose.Schema({
-    UserID: {
+    PatientID: {
         type:ObjectId,
         ref:"SignUp",
+    },
+    PatientName:{
+        type: String,
+        require: true
     },
     DoctorName: {
         type : String,

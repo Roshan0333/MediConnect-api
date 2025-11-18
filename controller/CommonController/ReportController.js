@@ -25,7 +25,7 @@ let ReportUpload = async (req, res) => {
         let DoctorName = Doctor.doctorName;
         let DoctorSpecialization = Doctor.specialization;
 
-        let Appointment = await AppointmentModel.findOne({UserID:PatientId, DoctorId:DoctorId, AppointmentDate, AppointmentTime})
+        let Appointment = await AppointmentModel.findOne({PatientID:PatientId, DoctorId:DoctorId, AppointmentDate, AppointmentTime})
 
         let AppointmentId = Appointment._id;
 

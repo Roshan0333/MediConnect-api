@@ -2,7 +2,7 @@ const { UserProfile_Model } = require("../../models/End_User_Model/UserProfile.m
 
 const UserProfile_Controller = async (req, res) => {
     try {
-        let { phone, street, nearby, pincode, city, state } = req.body;
+        let { age,phone, street, nearby, pincode, city, state } = req.body;
         let { _id, name, email } = req.user;
         let profilePhoto =req.file?req.file.buffer.toString("base64"):null;
 
@@ -12,6 +12,7 @@ const UserProfile_Controller = async (req, res) => {
             UserName: name,
             UserEmail: email,
             Phone: phone,
+            UserAge:age,
             Address: {
                 StreetName: street,
                 NearBy: nearby,
@@ -47,7 +48,7 @@ const Get_UserProfile_Controller = async (req, res) => {
 
 const Update_UserProfile_Controller = async (req, res) => {
     try {
-        let {name, phone, street, nearby, pincode, city, state } = req.body;
+        let {name, age, phone, street, nearby, pincode, city, state } = req.body;
         let { _id } = req.user;
 
         let profilePhoto = req.file?req.file.buffer.toString("base64"):null;
@@ -58,6 +59,7 @@ const Update_UserProfile_Controller = async (req, res) => {
                 ProfilePhoto: profilePhoto,
                 UserName: name,
                 Phone: phone,
+                UserAge:age,
                 Address: {
                     StreetName: street,
                     NearBy: nearby,

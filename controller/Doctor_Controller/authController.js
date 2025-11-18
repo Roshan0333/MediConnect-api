@@ -26,11 +26,6 @@ let Doctor_Signup = async (req, res) => {
 
         DoctorDetail.password = undefined;
 
-        let {accessToken, refreshToken} = jwtToken_Create(DoctorDetail);
-
-        Cookies(res,"AccessToken", accessToken, 15*60*1000);
-        Cookies(res, "RefreshToken", refreshToken, 30*24*60*60*1000);
-
         return res.status(200).json({ status:200,message: "Doctor Add Successfully"});
     }
     catch (err) {

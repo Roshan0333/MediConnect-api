@@ -22,18 +22,18 @@ app.use(express.urlencoded({ extended: true }));
 
 dbConnection();
 
-app.use("/appointment/auth", require("./Route/End_UserRoute/auth"));
-app.use("/appointment/booking", require("./Route/End_UserRoute/booking"));
-app.use("/appointment/user/userprofile", require("./Route/End_UserRoute/userProfile"));
-app.use("/appointment/doctor/auth", require("./Route/DoctorRoute/DoctorAuth"));
-app.use("/appointment/doctor/profile", require("./Route/DoctorRoute/DoctorProfileRoute"));
-app.use("/appointment/doctor/available", require("./Route/DoctorRoute/AvailableRoute"));
-app.use("/appointment/doctor/appointment", require("./Route/DoctorRoute/DoctorAppointmentRoute"));
-app.use("/appointment/management/auth", require("./Route/CommonRoute/ManagementAuthRoute"));
-app.use("/appointment/management/Report", require("./Route/CommonRoute/ReportRoute"));
-app.use("/appointment/SearchBy", require("./Route/CommonRoute/Search"));
+app.use("/mediconnect/auth", require("./Route/End_UserRoute/auth"));
+app.use("/mediconnect/booking", require("./Route/End_UserRoute/booking"));
+app.use("/mediconnect/user/userprofile", require("./Route/End_UserRoute/userProfile"));
+app.use("/mediconnect/doctor/auth", require("./Route/DoctorRoute/DoctorAuth"));
+app.use("/mediconnect/doctor/profile", require("./Route/DoctorRoute/DoctorProfileRoute"));
+app.use("/mediconnect/doctor/available", require("./Route/DoctorRoute/AvailableRoute"));
+app.use("/mediconnect/doctor/appointment", require("./Route/DoctorRoute/DoctorAppointmentRoute"));
+app.use("/mediconnect/management/auth", require("./Route/CommonRoute/ManagementAuthRoute"));
+app.use("/mediconnect/management/Report", require("./Route/CommonRoute/ReportRoute"));
+app.use("/mediconnect/SearchBy", require("./Route/CommonRoute/Search"));
 
-app.post("/appointment/signout", async (req,res) => {
+app.post("/mediconnect/signout", async (req,res) => {
     RemoveCookies(res);
 })
 

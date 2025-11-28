@@ -26,7 +26,7 @@ let Doctor_Signup = async (req, res) => {
 
         DoctorDetail.password = undefined;
 
-        return res.status(200).json({ status:200,message: "Doctor Add Successfully"});
+        return res.status(200).json({ status:200,msg: "Doctor Add Successfully"});
     }
     catch (err) {
         return res.status(500).json({ status:500, error: err.message });
@@ -40,7 +40,7 @@ let Doctor_Login = async (req, res) => {
         let DoctorDetail = await DoctorModel.findOne({ email: email });
 
         if(DoctorDetail === null){
-            return res.status(404).json({status:404, message:"User Not Found"})
+            return res.status(404).json({status:404, msg:"User Not Found"})
         }
 
         let encryptPassword = DoctorDetail.password;
@@ -48,7 +48,7 @@ let Doctor_Login = async (req, res) => {
         let passwordCompare = passwordDecrypt(password, encryptPassword);
 
         if (!passwordCompare) {
-            return res.status(401).json({ status:401, message: "Incorrect Password" })
+            return res.status(401).json({ status:401, msg: "Incorrect Password" })
         }
         else {
             DoctorDetail.password = undefined;
@@ -58,7 +58,7 @@ let Doctor_Login = async (req, res) => {
             Cookies(res,"AccessToken", accessToken, 15*60*1000);
             Cookies(res, "RefreshToken", refreshToken, 30*24*60*60*1000);
 
-            return res.status(200).json({ status:200, message: "Access Granted"})
+            return res.status(200).json({ status:200, msg: "Access Granted"})
         }
     }
     catch (err) {
@@ -75,7 +75,7 @@ let Doctor_ForgetPassword = async (req,res) => {
         let DoctorDetail = await DoctorModel.findOne({email:email});
 
         if(DoctorDetail === null){
-            return res.status(404).json({status:404, message: "User Not Found"});
+            return res.status(404).json({status:404, msg: "User Not Found"});
         }
 
         let UpdateDetail = await DoctorModel.findByIdAndUpdate(
@@ -90,7 +90,7 @@ let Doctor_ForgetPassword = async (req,res) => {
         Cookies(res,"AccessToken", accessToken, 15*60*1000);
         Cookies(res,"RefreshToken", refreshToken, 30*24*60*60*1000);
 
-        return res.status(200).json({status:200, message:"Password Updated Successfully",});
+        return res.status(200).json({status:200, msg:"Password Updated Successfully",});
     }
     catch(err){
         return res.status(500).json({status:500, error: err.message})

@@ -70,7 +70,7 @@ const Update_UserProfile_Controller = async (req, res) => {
             }
         )
 
-        return res.status(200).json({ status: 200, msg })
+        return res.status(200).json({ status: 200, msg:"Ptofile Update Successfully" })
     }
     catch (err) {
         return res.status(500).json({ status: 500, error: err.message });

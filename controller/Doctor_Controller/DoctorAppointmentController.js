@@ -10,7 +10,7 @@ const TodayAppointment = async (req,res) => {
             DoctorId: _id,
             AppointmentDate: todayDate,
             AppointmentStatus: "Conform"
-        })
+        });
 
         if(todayAppointmentData.length === 0){
             return res.status(404).json({status: 404, msg: "Today no Appointment"})

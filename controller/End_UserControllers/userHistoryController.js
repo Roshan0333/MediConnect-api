@@ -6,7 +6,6 @@ let app = express();
 
 app.use(express.json());
 
-
 const AppointmentBooking = async (req, res) => {
     try {
 
@@ -25,27 +24,27 @@ const AppointmentBooking = async (req, res) => {
         })
 
         await DoctorAvailable.findOneAndUpdate(
-            {DoctorId:DoctorId},
+            { DoctorId: DoctorId },
             {
-                $set:{
+                $set: {
                     "DoctorAvailable_Array.$[outer].Available.$[inner].Status": true
                 }
             },
             {
-                arrayFilters:[
-                    {"outer.Date": AppointmentDate},
-                    {"inner.time": AppointmentTime}
+                arrayFilters: [
+                    { "outer.Date": AppointmentDate },
+                    { "inner.time": AppointmentTime }
                 ]
             }
         )
 
         await AppointmentDetail.save();
 
-        return res.status(200).json({status:200, msg: "Appointment Booked Successfully" })
+        return res.status(200).json({ status: 200, msg: "Appointment Booked Successfully" })
 
     }
     catch (err) {
-        return res.status(500).json({status:500, error: err.message })
+        return res.status(500).json({ status: 500, error: err.message })
     }
 }
 
@@ -53,7 +52,7 @@ const CancelAppointment = async (req, res) => {
 
     try {
 
-        let {AppointmentId} = req.body;
+        let { AppointmentId } = req.body;
 
         let UserAppointment = await AppointmentModel.findById({ _id: AppointmentId });
 
@@ -63,27 +62,27 @@ const CancelAppointment = async (req, res) => {
             await UserAppointment.save();
 
             await DoctorAvailable.findOneAndUpdate(
-                {DoctorId:UserAppointment.DoctorId},
+                { DoctorId: UserAppointment.DoctorId },
                 {
-                    $set:{
-                        "DoctorAvailable_Array.$[outer].Available.$[inner].Status":false
+                    $set: {
+                        "DoctorAvailable_Array.$[outer].Available.$[inner].Status": false
                     }
                 },
                 {
-                    arrayFilters:[
-                        {"outer.Date": UserAppointment.AppointmentDate},
-                        {"inner.time": UserAppointment.AppointmentTime}
+                    arrayFilters: [
+                        { "outer.Date": UserAppointment.AppointmentDate },
+                        { "inner.time": UserAppointment.AppointmentTime }
                     ]
                 }
             )
-            return res.status(200).json({ status:200, msg: "Appointment Cancel Successfully" })
+            return res.status(200).json({ status: 200, msg: "Appointment Cancel Successfully" })
         }
         else {
-            return res.status(400).json({ status:400, msg: "Appointment are not Conform" })
+            return res.status(400).json({ status: 400, msg: "Appointment are not Conform" })
         }
     }
     catch (err) {
-        return res.status(500).json({ status:500, error: err.message })
+        return res.status(500).json({ status: 500, error: err.message })
     }
 }
 
@@ -94,65 +93,65 @@ const UserAppointmentHistory = async (req, res) => {
         let AppointmentHistory = await AppointmentModel.find({ PatientID: req.user._id });
 
         if (AppointmentHistory.length === 0) {
-            return res.status(200).json({status:200,length:false, msg: "No Appointment History" })
+            return res.status(200).json({ status: 200, length: false, msg: "No Appointment History" })
         }
         else {
-            return res.status(200).json({status:200,length:true, Data: AppointmentHistory })
+            return res.status(200).json({ status: 200, length: true, Data: AppointmentHistory })
         }
     }
     catch (err) {
-        return res.status(500).json({ status:500, error: err.message });
+        return res.status(500).json({ status: 500, error: err.message });
     }
 }
 
 const CurrentAppointment = async (req, res) => {
+
     try {
 
         let allAppointment = await AppointmentModel.find({ PatientID: req.user._id });
 
+
         let now = new Date();
+        let todayDateObj = new Date(now.toISOString().split('T')[0]);
+
+        const convertToDate = (dateStr) => {
+            let [day, month, year] = dateStr.split("/");
+            return new Date(`${year}-${month}-${day}`);
+        };
+
         let currentAppointment = allAppointment.filter((appointment) => {
+            let appointmentDateObj = convertToDate(appointment.AppointmentDate);
 
-            let appointmentDate = appointment.AppointmentDate;
-            let appointmentTime = appointment.AppointmentTime;
-
-            let appointmentDateTime = new Date(`${appointmentDate}T${appointmentTime}:00`);
-
-            return now <= appointmentDateTime;
-
+            return appointmentDateObj >= todayDateObj;
         })
 
-        if(!currentAppointment){
-            return res.status(404).json({status:404, msg:"No Current Appointment Available"})
+        if (currentAppointment.length === 0) {
+            return res.status(404).json({ status: 404, msg: "No Current Appointment Available" })
         }
 
-        let conformAppointment = currentAppointment.filter((appointment) => {
-            if (appointment.AppointmentStatus === "Conform") {
-                return appointment
-            }
-        })
+        let conformAppointment = currentAppointment.filter((appointment) => appointment.AppointmentStatus === "Conform")
 
-        return res.status(200).json({status:200, currentAppointment: conformAppointment })
+        return res.status(200).json({ status: 200, currentAppointment: conformAppointment })
     }
     catch (err) {
-        return res.status(500).json({status:500, error: err.message })
+        return res.status(500).json({ status: 500, error: err.message })
     }
 }
 
 
-const PreviousDoctor = async (req,res) => {
-    try{
-        const {DoctorId} = req.query;
+const PreviousDoctor = async (req, res) => {
+    try {
+        const { DoctorId } = req.query;
 
         let DoctorDetail = await DoctorModel.findById(DoctorId);
 
         DoctorDetail.password = undefined;
 
-        return res.status(200).json({status:200, DoctorDetail : DoctorDetail});
+        return res.status(200).json({ status: 200, DoctorDetail: DoctorDetail });
     }
-    catch(err){
-        return res.status(500).json({status:500, error: err.message})
+    catch (err) {
+        return res.status(500).json({ status: 500, error: err.message })
     }
 }
 
-module.exports = { AppointmentBooking, CancelAppointment, UserAppointmentHistory, CurrentAppointment, PreviousDoctor};
+module.exports = { AppointmentBooking, CancelAppointment, UserAppointmentHistory, CurrentAppointment, PreviousDoctor };

@@ -1,4 +1,4 @@
-const { UserProfile_Model } = require("../../models/End_User_Model/UserProfile.model");
+const UserProfile_Model = require("../../models/End_User_Model/UserProfile.model");
 
 const UserProfile_Controller = async (req, res) => {
     try {

@@ -41,7 +41,7 @@ const FutureAppointment = async (req, res) => {
             return res.status(404).json({status: 404, msg: "No Appointment"});
         }
 
-        return res.status(200).json({status: 200, msg: futureAppointmentData})
+        return res.status(200).json({status: 200, Appointment: futureAppointmentData})
     }
     catch(err){
         return res.status(500).json({status: 500, error: err.message})
@@ -57,10 +57,10 @@ const AppointmentHistory = async (req, res) => {
         })
 
         if(appointmentHistoryData.length === 0){
-            return res.status(404).json({status: 404, msg: "No Appointment"});
+            return res.status(200).json({status: 200,length: false, msg: "No Appointment"});
         }
 
-        return res.status(200).json({status: 200, appointmentHistoryData: appointmentHistoryData});
+        return res.status(200).json({status: 200,length: true, appointmentHistoryData: appointmentHistoryData});
     }
     catch(err){
         return res.status(500).json({status: 500, error: err.message});

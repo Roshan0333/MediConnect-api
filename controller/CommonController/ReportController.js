@@ -16,8 +16,7 @@ let ReportUpload = async (req, res) => {
 
         let User = await UserModel.findOne({email:PatientEmail});
         let Doctor = await DoctorModel.findOne({email:DoctorEmail});
-
-
+        
         let PatientId = User._id;
         let PatientName = User.name;
 
@@ -28,8 +27,6 @@ let ReportUpload = async (req, res) => {
         let Appointment = await AppointmentModel.findOne({PatientID:PatientId, DoctorId:DoctorId, AppointmentDate, AppointmentTime})
 
         let AppointmentId = Appointment._id;
-
-        console.log(AppointmentId)
 
         let ReportBase64 = req.file ? req.file.buffer.toString("base64") : null;
 
@@ -43,14 +40,14 @@ let ReportUpload = async (req, res) => {
             DoctorId,
             DoctorName,
             DoctorSpecialization,
-            UploadedById: await req.user._id,
-            UploadedBy: await req.user.UserName,
+            UploadedById: req.user._id,
+            UploadedBy: req.user.UserName,
             Report: await ReportBase64
         })
 
         await ReportDetail.save();
 
-        return res.status(200).json({ status:200, msg: "Report Uploaded Successfully", Report: ReportBase64 });
+        return res.status(200).json({ status:200, msg: "Report Uploaded Successfully"});
 
     }
     catch (err) {
@@ -60,26 +57,17 @@ let ReportUpload = async (req, res) => {
 }
 
 
-let ReportGet = async (req,res) => {
+let ReportGetByPatient = async (req,res) => {
     try{
             let {_id} = req.user;
 
-            let requestFrom = "Patient";
-
             let reportFind_ByPatient = await ReportModel.find({PatientId:_id});
 
-            let reportFind_ByDoctor = await ReportModel.find({DoctorId:_id});
-
-            if(reportFind_ByPatient.length !== 0 && reportFind_ByDoctor.length === 0){
-                return res.status(200).json({status:200, Reports: reportFind_ByPatient, RequestFrom: requestFrom});
+            if(reportFind_ByPatient.length === 0){
+                return res.status(404).json({status:404, msg: "No Record Found"});
             }
-            else if(reportFind_ByPatient.length === 0 && reportFind_ByDoctor.length !== 0){
-                requiredFrom = "Doctor";
-                return res.status(200).json({status:200, Reports: reportFind_ByDoctor, RequestFrom: requestFrom});
-            }
-            else{
-                return res.status(200).json({status:204, msg: "No Record Found"});
-            }
+            
+            return res.status(200).json({status:200, Reports: reportFind_ByPatient});
     }
     catch (err){
         return res.status(500).json()
@@ -87,4 +75,21 @@ let ReportGet = async (req,res) => {
 
 }
 
-module.exports = {ReportUpload, ReportGet};;
+let ReportGetByDoctor = async (req, res) => {
+    try{
+        let {_id} = req.user;
+
+        let reportFind_ByDoctor = await ReportModel.find({DoctorId: _id});
+
+        if(reportFind_ByDoctor.length === 0) {
+            return res.status(404).json({status: 404, msg: "No Record Found."})
+        }
+
+        return res.status(200).json({status: 200, Reports: reportFind_ByDoctor})
+    }
+    catch(err){
+        return res.status(500).json({status: 500, error: err.message})
+    }
+}
+
+module.exports = {ReportUpload, ReportGetByPatient, ReportGetByDoctor};;

@@ -25,7 +25,7 @@ let DoctorAvailable_Post = async (req, res) => {
 
             let datePresent_OrNot = await DoctorAvailable_Model.findOne({
                 DoctorId: req.user._id,
-               "DoctorAvailable_Array.Date": Date 
+                "DoctorAvailable_Array.Date": Date
             })
 
             if (!datePresent_OrNot) {
@@ -83,5 +83,30 @@ let DoctorAvailable_EditTime = async (req, res) => {
 }
 
 
+let DoctorAvailable_Get = async (req, res) => {
+    try {
+        const { availableDate } = req.query;
 
-module.exports = { DoctorAvailable_Post, DoctorAvailable_DeleteDate, DoctorAvailable_EditTime};
+        let availableDetail = await DoctorAvailable_Model.findOne({
+            DoctorId: req.user._id,
+            DoctorAvailable_Array: { $elemMatch: { Date: availableDate } }
+        },
+            {
+                "DoctorAvailable_Array.$": 1
+            });
+
+        if (!availableDetail || availableDetail === null) {
+            return res.status(404).json({ status: 404, msg: "Appointment is not Available on this Date" })
+        }
+
+        return res.status(200).json({ status: 200, AvailableDetail: availableDetail })
+
+    }
+    catch (err) {
+        return res.status(500).json({ status: 500, error: err.msg })
+    }
+}
+
+
+
+module.exports = { DoctorAvailable_Post, DoctorAvailable_DeleteDate, DoctorAvailable_EditTime, DoctorAvailable_Get };

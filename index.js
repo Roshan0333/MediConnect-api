@@ -7,8 +7,6 @@ require('dotenv').config();
 
 const PORT = 3000;
 
-// const PORT = process.env.PORT
-
 const app = express();
 
 app.use(cors({
@@ -32,10 +30,11 @@ app.use("/mediconnect/doctor/appointment", require("./Route/DoctorRoute/DoctorAp
 app.use("/mediconnect/management/auth", require("./Route/CommonRoute/ManagementAuthRoute"));
 app.use("/mediconnect/management/Report", require("./Route/CommonRoute/ReportRoute"));
 app.use("/mediconnect/SearchBy", require("./Route/CommonRoute/Search"));
-
 app.post("/mediconnect/signout", async (req,res) => {
     RemoveCookies(res);
 })
+
+app.use("/mediconnect/zipCode", require("./Route/CommonRoute/zipCodeRoute"))
 
 app.listen(PORT, () => { console.log(`Server Is Running on ${PORT}`) })
 

@@ -96,7 +96,7 @@ const UserAppointmentHistory = async (req, res) => {
             return res.status(200).json({ status: 200, length: false, msg: "No Appointment History" })
         }
         else {
-            return res.status(200).json({ status: 200, length: true, Data: AppointmentHistory })
+            return res.status(200).json({ status: 200, length: true, appointmentHistoryData: AppointmentHistory })
         }
     }
     catch (err) {

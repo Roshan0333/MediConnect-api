@@ -22,7 +22,7 @@ const UserProfile_Schema = mongoose.Schema({
         unique: true
     },
     UserAge:{
-        type:Number
+        type:Number     
     },
     Address: {
         StreetName: {
@@ -43,6 +43,6 @@ const UserProfile_Schema = mongoose.Schema({
     }
 });
 
-const UserProfile_Model = mongoose.model("User Profile", UserProfile_Schema);
+const UserProfile_Model = mongoose.model("UserProfile", UserProfile_Schema);
 
 module.exports = UserProfile_Model;

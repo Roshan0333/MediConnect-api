@@ -4,7 +4,15 @@ const {ObjectId} = mongoose.Schema.Types
 let Report_Schema = new mongoose.Schema({
     AppointmentId:{
         type:String,
-    }, 
+    },
+    UploadedBy:{
+        type:String,
+        ref:"Management"
+    },
+     UploadedById:{
+        type:ObjectId,
+        ref:"Management"
+    },
     FileName:{
         type:String,
         required:true
@@ -31,10 +39,6 @@ let Report_Schema = new mongoose.Schema({
     },
     DoctorSpecialization:{
         type:String,
-    },
-    UploadedBy:{
-        type:ObjectId,
-        ref:"Management"
     },
     Report:{
         type:String,

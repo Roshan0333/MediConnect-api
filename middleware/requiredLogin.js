@@ -8,8 +8,6 @@ let app = express();
 app.use(express.json());
 
 
-
-
 let Cookies = (res,tokenType, token, expiredIn) => {
     res.cookie(tokenType, token, {
         httpOnly:true,
@@ -51,6 +49,7 @@ module.exports = (req, res, next) => {
                 }
             }
             else{
+                
                 return res.status(500).json({ error: err.message });
             }
         }

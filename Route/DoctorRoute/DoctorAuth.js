@@ -46,7 +46,7 @@ const Email_Duplicate = async (req, res, next) => {
 
 route.post("/Signup", Email_Duplicate, Doctor_Signup);
 route.post("/Login", isEmail_Present_Not, Doctor_Login);
-route.post("/forgetPassword", Doctor_ForgetPassword);
+route.post("/forgetPassword",isEmail_Present_Not, Doctor_ForgetPassword);
 route.get("/List", DoctorList);
 route.put("/DoctorFee", UpdateDoctorFee)
 

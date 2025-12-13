@@ -72,14 +72,8 @@ let Doctor_ForgetPassword = async (req,res) => {
 
         let {email, password} = req.body;
 
-        let DoctorDetail = await DoctorModel.findOne({email:email});
-
-        if(DoctorDetail === null){
-            return res.status(404).json({status:404, msg: "User Not Found"});
-        }
-
-        let UpdateDetail = await DoctorModel.findByIdAndUpdate(
-            {_id:DoctorDetail._id},
+        let UpdateDetail = await DoctorModel.findOneAndUpdate(
+            {email:email},
             {password: passwordEncrypt(password)}
         );
 
